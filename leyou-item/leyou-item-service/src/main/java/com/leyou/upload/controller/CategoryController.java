@@ -1,9 +1,8 @@
-package com.leyou.item.controller;
+package com.leyou.upload.controller;
 
-import com.leyou.item.pojo.Category;
-import com.leyou.item.service.CategoryService;
+import com.leyou.upload.pojo.Category;
+import com.leyou.upload.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
-package com.leyou.item.mapper;
+package com.leyou.upload.mapper;
 
-import com.leyou.item.pojo.Brand;
+import com.leyou.upload.pojo.Brand;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
