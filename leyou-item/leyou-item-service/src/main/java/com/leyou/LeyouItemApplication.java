@@ -7,7 +7,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("com.leyou.item.mapper")
+@MapperScan("com.leyou.upload.mapper")
 public class LeyouItemApplication {
 
     public static void main(String[] args) {
