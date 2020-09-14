@@ -2,16 +2,15 @@ package com.leyou.upload.controller;
 
 import com.leyou.common.pojo.PageResult;
 import com.leyou.upload.pojo.Brand;
+import com.leyou.upload.pojo.Category;
 import com.leyou.upload.service.BrandService;
+import com.leyou.upload.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +20,10 @@ public class  BrandController {
 
     @Autowired
     private BrandService brandService;
+
+    @Autowired
+    private CategoryService categoryService;
+
 
     /**
      * 根据查询条件分页并排序查询品牌信息
@@ -56,5 +59,19 @@ public class  BrandController {
     public ResponseEntity<Void> saveBrand(Brand brand, @RequestParam("cids") List<Long> cids){
         this.brandService.saveBrand(brand, cids);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    /**
+     * 通过品牌id查询商品分类
+     * @param bid
+     * @return
+     */
+    @GetMapping("bid/{bid}")
+    public ResponseEntity<List<Category>> queryByBrandId(@PathVariable("bid") Long bid) {
+        List<Category> list = this.categoryService.queryByBrandId(bid);
+        if (list == null || list.size() < 1) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(list);
     }
 }
