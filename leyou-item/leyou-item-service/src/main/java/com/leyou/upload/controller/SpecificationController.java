@@ -1,14 +1,12 @@
 package com.leyou.upload.controller;
 
 import com.leyou.upload.pojo.SpecGroup;
+import com.leyou.upload.pojo.SpecParam;
 import com.leyou.upload.service.SpecificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +29,29 @@ public class  SpecificationController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(groups);
+    }
+
+    /**
+     *
+     * @param gid
+     * @param cid
+     * @param generic
+     * @param searching
+     * @return
+     */
+    @GetMapping("params")
+    public ResponseEntity<List<SpecParam>> queryParams(
+            @RequestParam(value = "gid", required = false)Long gid,
+            @RequestParam(value = "cid", required = false)Long cid,
+            @RequestParam(value = "generic", required = false)Boolean generic,
+            @RequestParam(value = "searching", required = false)Boolean searching
+    ){
+
+        List<SpecParam> params = this.specificationService.queryParams(gid, cid, generic, searching);
+
+        if (CollectionUtils.isEmpty(params)){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(params);
     }
 }

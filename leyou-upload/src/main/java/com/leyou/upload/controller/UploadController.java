@@ -22,10 +22,6 @@ public class UploadController {
      * 图片上传
      * @param file
      * @return
-     * - 请求方式：上传肯定是POST
-     * - 请求路径：/upload/image
-     * - 请求参数：文件，参数名是file，SpringMVC会封装为一个接口：MultipartFile
-     * - 返回结果：上传成功后得到的文件的url路径，也就是返回String
      */
     @PostMapping("image")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file){
