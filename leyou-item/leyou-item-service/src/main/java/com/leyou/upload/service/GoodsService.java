@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.leyou.common.pojo.PageResult;
 import com.leyou.upload.bo.SpuBo;
 import com.leyou.upload.mapper.*;
+import com.leyou.upload.pojo.Sku;
 import com.leyou.upload.pojo.Spu;
 import com.leyou.upload.pojo.SpuDetail;
 import com.leyou.upload.pojo.Stock;
@@ -117,5 +118,31 @@ public class GoodsService {
             stock.setStock(sku.getStock());
             this.stockMapper.insertSelective(stock);
         });
+    }
+
+    /**
+     * 根据spuId查询spuDetail
+     * @param spuId
+     * @return
+     */
+    public SpuDetail querySpuDetailBySpuId(Long spuId) {
+
+        return this.spuDetailMapper.selectByPrimaryKey(spuId);
+    }
+
+    /**
+     * 根据spuId查询sku的集合
+     * @param spuId
+     * @return
+     */
+    public List<Sku> querySkusBySpuId(Long spuId) {
+        Sku sku = new Sku();
+        sku.setSpuId(spuId);
+        List<Sku> skus = this.skuMapper.select(sku);
+        skus.forEach(s -> {
+            Stock stock = this.stockMapper.selectByPrimaryKey(s.getId());
+            s.setStock(stock.getStock());
+        });
+        return skus;
     }
 }
