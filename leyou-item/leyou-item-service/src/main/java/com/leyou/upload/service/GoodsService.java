@@ -89,6 +89,7 @@ public class GoodsService {
     public void saveGoods(SpuBo spuBo) {
         // 新增spu
         // 设置默认字段
+        // 防止恶意注入
         spuBo.setId(null);
         spuBo.setSaleable(true);
         spuBo.setValid(true);
