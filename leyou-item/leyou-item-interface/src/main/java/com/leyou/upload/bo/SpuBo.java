@@ -30,7 +30,7 @@ public class SpuBo extends Spu {
     public void setSkus(List<Sku> skus) {
         this.skus = skus;
     }
-// 略 。。
+
 
     public String getCname() {
         return cname;

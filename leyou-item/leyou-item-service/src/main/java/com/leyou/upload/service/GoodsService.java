@@ -36,7 +36,16 @@ public class GoodsService {
     private BrandMapper brandMapper;
 
     @Autowired
-    private SpuBo spuBo;
+    private SpuBoMapper spuBoMapper;
+
+    @Autowired
+    private SpuDetailMapper spuDetailMapper;
+
+    @Autowired
+    private SkuMapper skuMapper;
+
+    @Autowired
+    private StockMapper stockMapper;
 
 
     public PageResult<SpuBo> querySpuBoByPage(String key, Boolean saleable, Integer page, Integer rows) {
@@ -81,14 +90,7 @@ public class GoodsService {
      * 新增商品
      * @param spuBo
      */
-    @Autowired
-    private SpuDetailMapper spuDetailMapper;
 
-    @Autowired
-    private SkuMapper skuMapper;
-
-    @Autowired
-    private StockMapper stockMapper;
 
     @Transactional
     public void saveGoods(SpuBo spuBo) {
@@ -178,7 +180,7 @@ public class GoodsService {
 
         }
         // 新增sku和库存
-        saveSkuAndStock(spuBo);
+        saveSkuAndStock(spu);
 
         // 更新spu
         spu.setLastUpdateTime(new Date());
