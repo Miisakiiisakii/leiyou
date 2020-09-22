@@ -14,12 +14,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GoodsService {
@@ -32,6 +34,9 @@ public class GoodsService {
 
     @Autowired
     private BrandMapper brandMapper;
+
+    @Autowired
+    private SpuBo spuBo;
 
 
     public PageResult<SpuBo> querySpuBoByPage(String key, Boolean saleable, Integer page, Integer rows) {
@@ -145,5 +150,44 @@ public class GoodsService {
             s.setStock(stock.getStock());
         });
         return skus;
+    }
+
+    /**
+     * spu数据可以修改，但是SKU数据无法修改，因为有可能之前存在的SKU现在已经不存在了，
+     * 或者以前的sku属性都不存在了。比如以前内存有4G，现在没了。
+     * 因此这里直接删除以前的SKU，然后新增即可。
+     * @param spu
+     */
+
+    @Transactional
+    public void updateGoods(SpuBo spu) {
+        // 查询以前sku
+        List<Sku> skus = this.querySkusBySpuId(spu.getId());
+        // 如果以前存在，则删除
+        if(!CollectionUtils.isEmpty(skus)) {
+            List<Long> ids = skus.stream().map(s -> s.getId()).collect(Collectors.toList());
+            // 删除以前库存
+            Example example = new Example(Stock.class);
+            example.createCriteria().andIn("skuId", ids);
+            this.stockMapper.deleteByExample(example);
+
+            // 删除以前的sku
+            Sku record = new Sku();
+            record.setSpuId(spu.getId());
+            this.skuMapper.delete(record);
+
+        }
+        // 新增sku和库存
+        saveSkuAndStock(spuBo);
+
+        // 更新spu
+        spu.setLastUpdateTime(new Date());
+        spu.setCreateTime(null);
+        spu.setValid(null);
+        spu.setSaleable(null);
+        this.spuMapper.updateByPrimaryKeySelective(spu);
+
+        // 更新spu详情
+        this.spuDetailMapper.updateByPrimaryKeySelective(spu.getSpuDetail());
     }
 }

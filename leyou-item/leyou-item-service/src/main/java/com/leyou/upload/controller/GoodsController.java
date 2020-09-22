@@ -65,4 +65,10 @@ public class GoodsController {
         }
         return ResponseEntity.ok(skus);
     }
+
+    @PutMapping("goods")
+    public ResponseEntity<Void> updateGoods(@RequestBody SpuBo spuBo){
+        this.goodsService.updateGoods(spuBo);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
