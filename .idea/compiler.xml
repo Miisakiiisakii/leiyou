@@ -16,7 +16,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="leyou-item" target="8" />
+      <module name="leyou-item" target="1.12" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
