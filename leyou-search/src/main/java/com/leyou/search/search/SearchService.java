@@ -106,7 +106,7 @@ public class SearchService {
         //获取spu下的所有sku，并转化成json字符串
         goods.setSkus(MAPPER.writeValueAsString(skuMapList));
         //所有查询的规格参数{name: value}
-        goods.setSpecs(null);
+        goods.setSpecs(paramMap);
         return goods;
     }
 
