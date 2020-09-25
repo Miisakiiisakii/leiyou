@@ -39,7 +39,7 @@ public class SearchService {
         Goods goods = new Goods();
 
         //根据分类id查询分类名称
-        List<String> names = (List<String>) this.categoryClient.queryNameByIds(Arrays.asList(spu.getCid1(), spu.getCid2(), spu.getCid3()));
+        List<String> names = (List<String>) this.categoryClient.queryNamesByIds(Arrays.asList(spu.getCid1(), spu.getCid2(), spu.getCid3()));
 
         //根据品牌id查询品牌
         Brand brand = this.brandClient.queryBrandById(spu.getBrandId());

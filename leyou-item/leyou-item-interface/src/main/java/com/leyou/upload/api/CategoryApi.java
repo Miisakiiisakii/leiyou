@@ -11,5 +11,5 @@ import java.util.List;
 public interface CategoryApi {
 
     @GetMapping("names")
-    ResponseEntity<List<String>> queryNameByIds(@RequestParam("ids") List<Long> ids);
+    ResponseEntity<List<String>> queryNamesByIds(@RequestParam("ids") List<Long> ids);
 }
